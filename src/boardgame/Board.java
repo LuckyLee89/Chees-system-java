@@ -56,6 +56,24 @@ public class Board {
 																	// informei
 		piece.position = position;// a peça na posicao recebe a posicao informada no método
 	}
+	
+	public Piece removePiece(Position position) {
+		
+		if(!positionExists(position)) {
+			throw new BoardException("Position not on the board");
+		}
+		
+		if (piece(position)== null) {
+			return null;
+		}
+		
+		Piece aux = piece(position);
+		aux.position= null;// retirei a peça auxiliar
+		pieces[position.getRow()][position.getColumn()]= null;// agora não tem mais peça na matriz de peças
+		
+		return aux;
+		
+	}
 
 	private boolean positionExists(int row, int column) {
 
