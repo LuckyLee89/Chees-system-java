@@ -31,7 +31,7 @@ public abstract class Piece {
 		
 		boolean[][] mat = possibleMoves();
 		for(int i=0; i< mat.length;i++) {// percorrendo a matriz para verificar se existe alguma posicao que seja verdadeira 
-			for(int j=0; j<mat.length;j++) {
+			for(int j=0; j< mat.length;j++) {
 				if(mat[i][j]) {// se a matriz for verdadeira
 					return true;
 				}

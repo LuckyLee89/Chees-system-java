@@ -22,7 +22,7 @@ public class Program {
 				UI.clearScreen();
 				UI.printBoard(chessMatch.getPieces());
 				System.out.println();// só pra saltar uma linha
-				System.out.println("Source: ");
+				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(scan);
 				
 				//posicoes possiveis para movimentoar
@@ -31,7 +31,7 @@ public class Program {
 				UI.printBoard(chessMatch.getPieces(), possibleMoves);// sobrecarga imprimindo o tabuleiro mas colorindo as posicoes possiveis
 				
 				System.out.println();// só pra saltar uma linha
-				System.out.println("Target: ");
+				System.out.print("Target: ");
 				ChessPosition target = UI.readChessPosition(scan);
 				
 				ChessPiece capturedPiece= chessMatch.performChessMove(source, target);

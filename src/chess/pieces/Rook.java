@@ -76,7 +76,7 @@ public class Rook extends ChessPiece {
 			mat[p.getRow()][p.getColumn()] = true;// marcando a posicao como verdadeira
 		}
 
-		return null;
+		return mat;
 
 	}
 
