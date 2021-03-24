@@ -33,6 +33,7 @@ public class ChessMatch {
 		Position source= sourcePosition.toPosition();// convertendo para posição da matrix
 		Position target= targetPosition.toPosition();//convertendo para posição da matrix
 		validateSourcePosition(source);
+		validateTargetPosition(source,target);
 		Piece capturedPiece = makeMove(source, target);
 		return (ChessPiece)capturedPiece; // downcast da peça tipo piece para ChessPiece
 	}
@@ -50,6 +51,12 @@ public class ChessMatch {
 		}
 	}
 	
+	private void validateTargetPosition(Position source, Position target) {
+		if(board.piece(source).possibleMove(target)) {
+			
+			throw new ChessException("The chosen piece can't move to targer position ");
+		}
+	}
 	private Piece makeMove(Position sourcePosition, Position targePosition) {
 		
 		Piece p= board.removePiece(sourcePosition);// remove a peça da origem ou melhor que movemos
