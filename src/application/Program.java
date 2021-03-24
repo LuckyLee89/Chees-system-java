@@ -25,6 +25,11 @@ public class Program {
 				System.out.println("Source: ");
 				ChessPosition source = UI.readChessPosition(scan);
 				
+				//posicoes possiveis para movimentoar
+				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+				UI.clearScreen();
+				UI.printBoard(chessMatch.getPieces(), possibleMoves);// sobrecarga imprimindo o tabuleiro mas colorindo as posicoes possiveis
+				
 				System.out.println();// só pra saltar uma linha
 				System.out.println("Target: ");
 				ChessPosition target = UI.readChessPosition(scan);
