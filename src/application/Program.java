@@ -20,7 +20,7 @@ public class Program {
 			
 			try {
 				UI.clearScreen();
-				UI.printBoard(chessMatch.getPieces());
+				UI.printMatch(chessMatch);
 				System.out.println();// só pra saltar uma linha
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(scan);

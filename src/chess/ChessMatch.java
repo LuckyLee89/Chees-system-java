@@ -9,11 +9,24 @@ import chess.pieces.Rook;
 public class ChessMatch {
 
 	private Board board;
+	private int turn;
+	private Color currentPlayer;
 
 	public ChessMatch() {
-
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();
+	}
+
+	public int getTurn() {
+
+		return turn;
+	}
+
+	public Color getCurrentPlayer() {
+
+		return currentPlayer;
 	}
 
 	public ChessPiece[][] getPieces() {
@@ -27,54 +40,68 @@ public class ChessMatch {
 		}
 		return mat;
 	}
-	
-	public boolean[][] possibleMoves(ChessPosition sourcePosition){
-		
-		Position position = sourcePosition.toPosition();// convertendo a posicao de matriz xadrez para uma posicao de matriz normal
+
+	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+
+		Position position = sourcePosition.toPosition();// convertendo a posicao de matriz xadrez para uma posicao de
+														// matriz normal
 		validateSourcePosition(position);
-		
+
 		return board.piece(position).possibleMoves();// retorna os movimentos possiveis da peça na posição
-		
+
 	}
 
-	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition ) {
-		
-		Position source= sourcePosition.toPosition();// convertendo para posição da matrix
-		Position target= targetPosition.toPosition();//convertendo para posição da matrix
+	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+
+		Position source = sourcePosition.toPosition();// convertendo para posição da matrix
+		Position target = targetPosition.toPosition();// convertendo para posição da matrix
 		validateSourcePosition(source);
-		validateTargetPosition(source,target);
+		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target);
-		return (ChessPiece)capturedPiece; // downcast da peça tipo piece para ChessPiece
+		nextTurn();
+		return (ChessPiece) capturedPiece; // downcast da peça tipo piece para ChessPiece
 	}
+
 	private Piece makeMove(Position sourcePosition, Position targePosition) {
-		
-		Piece p= board.removePiece(sourcePosition);// remove a peça da origem ou melhor que movemos
-		Piece capturedPiece = board.removePiece(targePosition);// removendo a peça no destion ou seja capturada 
-		board.placePiece(p,targePosition);// colacando a peça movida no lugar da capturada
+
+		Piece p = board.removePiece(sourcePosition);// remove a peça da origem ou melhor que movemos
+		Piece capturedPiece = board.removePiece(targePosition);// removendo a peça no destion ou seja capturada
+		board.placePiece(p, targePosition);// colacando a peça movida no lugar da capturada
 		return capturedPiece;
 	}
-	
+
 	private void validateSourcePosition(Position position) {
-		
-		if(!board.thereIsAPiece(position)) {// se não existir uma peça nessa posicao
-			
+
+		if (!board.thereIsAPiece(position)) {// se não existir uma peça nessa posicao
+
 			throw new ChessException("There is no piece on sourcePosition");
 		}
-		
-		if(!board.piece(position).isThereAnyPossibleMove()) {
-			
+
+		if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {
+
+			throw new ChessException("There chosen piece is not yours ");
+		}
+
+		if (!board.piece(position).isThereAnyPossibleMove()) {
+
 			throw new ChessException("There is no possible moves for the chosen piece ");
 		}
 	}
-	
+
 	private void validateTargetPosition(Position source, Position target) {
-		if(!board.piece(source).possibleMove(target)) {
-			
+		if (!board.piece(source).possibleMove(target)) {
+
 			throw new ChessException("The chosen piece can't move to targer position ");
 		}
 	}
 
-	
+	private void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;// se o currente player for igual a
+																					// branco então ele muda pra preto
+																					// se não branco
+	}
+
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
